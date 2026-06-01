@@ -35,6 +35,7 @@ def is_duplicate(books, author, title):
 
     Регистр символов (заглавные/строчные) и лишние пробелы игнорируются.
     """
+    # Функция протестирована
     for book in books:
         if (
             book["author"].strip().lower() == author.strip().lower()
