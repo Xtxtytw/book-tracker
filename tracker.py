@@ -56,7 +56,37 @@ def list_and_stats(books, mode="all"):
 
 def delete(books):
     """Выводит список книг и удаляет выбранную пользователем книгу по ее номеру."""
-    pass
+    if not books:
+        print("\nВаш трекер пуст. Удалять нечего.")
+        return books
+
+    list_and_stats(books, mode="all")
+
+    print("\n--- Удаление книги ---")
+    while True:
+        try:
+            choice = input(
+                "Введите номер книги для удаления (или '0' для отмены): "
+            )
+            choice_idx = int(choice)
+
+            if choice_idx == 0:
+                print("Удаление отменено.")
+                return books
+
+            if 1 <= choice_idx <= len(books):
+                removed_book = books.pop(choice_idx - 1)
+                save_books(books)
+                print(
+                    f"Успешно: Книга '{removed_book['title']}' "
+                    f"автора {removed_book['author']} удалена."
+                )
+                return books
+
+            print(f"Неверный номер. Введите число от 1 до {len(books)}.")
+        except ValueError:
+            print("Ошибка ввода. Пожалуйста, введите корректное число.")
+
 
 
 def main():
