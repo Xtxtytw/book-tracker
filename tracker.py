@@ -50,8 +50,49 @@ def add_book(books):
 
 
 def list_and_stats(books, mode="all"):
-    """Универсальная функция для вывода списков и расчета статистики."""
-    pass
+    """Универсальная функция для вывода списков и расчета статистики.
+
+    Параметр mode управляет режимом работы:
+    - 'all': Показать все книги
+    - 'rating': Показать только среднюю оценку
+    - 'authors': Показать статистику по авторам
+    """
+    if not books:
+        print("\nВаш трекер пуст. Сначала добавьте книги.")
+        return
+
+    # РЕЖИМ 1: Вывод всех книг
+    if mode == "all":
+        print("\n--- Список всех прочитанных книг ---")
+        for index, book in enumerate(books, start=1):
+            print(
+                f"{index}. {book['author']} — «{book['title']}» | "
+                f"Оценка: {book['rating']}/5 | Дата: {book['date_read']}"
+            )
+
+    # РЕЖИМ 2: Расчет средней оценки всех книг
+    elif mode == "rating":
+        all_ratings = [book["rating"] for book in books]
+        average = sum(all_ratings) / len(all_ratings)
+        print(f"\nСредняя оценка всех прочитанных книг: {average:.2f} из 5")
+
+    # РЕЖИМ 3: Статистика по авторам
+    elif mode == "authors":
+        print("\n--- Статистика по авторам ---")
+        author_data = {}
+        for book in books:
+            author = book["author"]
+            if author not in author_data:
+                author_data[author] = []
+            author_data[author].append(book["rating"])
+
+        for author, ratings in author_data.items():
+            count = len(ratings)
+            avg_rating = sum(ratings) / count
+            print(
+                f"Автор: {author} | Прочитано книг: {count} | "
+                f"Средний балл: {avg_rating:.2f}"
+            )
 
 
 def delete(books):
