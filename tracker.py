@@ -46,7 +46,48 @@ def is_duplicate(books, author, title):
 
 def add_book(books):
     """Запрашивает данные у пользователя и добавляет новую книгу в список."""
-    pass
+    print("\n--- Добавление новой книги ---")
+    author = input("Введите автора: ").strip()
+    title = input("Введите название книги: ").strip()
+
+    # Валидация на пустые поля
+    if not author or not title:
+        print("Ошибка: Автор и название не могут быть пустыми!")
+        return books
+
+    # Проверка на дубликаты
+    if is_duplicate(books, author, title):
+        print(f"Ошибка: Книга '{title}' автора {author} уже есть в трекере!")
+        return books
+
+    # Запрос и валидация оценки
+    while True:
+        try:
+            rating = int(input("Введите вашу оценку (от 1 до 5): "))
+            if 1 <= rating <= 5:
+                break
+            print("Оценка должна быть целым числом от 1 до 5.")
+        except ValueError:
+            print("Ошибка ввода. Пожалуйста, введите число.")
+
+    # Ввод даты прочтения
+    date_read = input("Введите дату прочтения (например, ДД-ММ-ГГГГ): ").strip()
+    if not date_read:
+        date_read = "Не указана"
+
+    # Создаем словарь с данными новой книги
+    new_book = {
+        "author": author,
+        "title": title,
+        "rating": rating,
+        "date_read": date_read,
+    }
+
+    # Добавляем в массив и сохраняем изменения
+    books.append(new_book)
+    save_books(books)
+    print(f"Успешно: Книга '{title}' добавлена.")
+    return books
 
 
 def list_and_stats(books, mode="all"):
